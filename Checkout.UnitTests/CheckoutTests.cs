@@ -222,5 +222,16 @@ namespace Checkout.UnitTests
 
             Assert.AreEqual(10, checkout.GetTotalPrice());
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Checkout_ThrowsCorrectExceptionWhenEmptySkuIsScanned()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            checkout.Scan("");
+
+            Assert.AreEqual(10, checkout.GetTotalPrice());
+        }
     }
 }
