@@ -199,5 +199,16 @@ namespace Checkout.UnitTests
 
             Assert.AreEqual(330, checkout.GetTotalPrice());
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProductNotFoundException))]
+        public void Checkout_ThrowsCorrectExceptionWhenUnrecognisedSkuIsScanned()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            checkout.Scan("F");
+
+            Assert.AreEqual(10, checkout.GetTotalPrice());
+        }
     }
 }
