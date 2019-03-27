@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Checkout.UnitTests
 {
@@ -207,6 +208,17 @@ namespace Checkout.UnitTests
             var checkout = new Checkout(this.productRepository);
 
             checkout.Scan("F");
+
+            Assert.AreEqual(10, checkout.GetTotalPrice());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Checkout_ThrowsCorrectExceptionWhenNullSkuIsScanned()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            checkout.Scan(null);
 
             Assert.AreEqual(10, checkout.GetTotalPrice());
         }
