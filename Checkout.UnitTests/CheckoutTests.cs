@@ -29,6 +29,14 @@ namespace Checkout.UnitTests
                 Sku = "C",
                 UnitPrice = 30
             });
+
+            productRepository.AddProduct(new Product
+            {
+                Sku = "D",
+                UnitPrice = 10,
+                BundleQuantity = 2,
+                BundleMultiplier = 1
+            });
         }
 
         [TestMethod]
@@ -63,6 +71,16 @@ namespace Checkout.UnitTests
             checkout.Scan("C");
 
             Assert.AreEqual(60, checkout.GetTotalPrice());
+        }
+
+        [TestMethod]
+        public void Checkout_CalculatesCorrectPriceFor_SingleScan_SingleProduct_TwoForOneBundle()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            checkout.Scan("D");
+
+            Assert.AreEqual(10, checkout.GetTotalPrice());
         }
     }
 }
