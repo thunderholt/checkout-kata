@@ -256,5 +256,17 @@ namespace Checkout.UnitTests
 
             Assert.AreEqual(60, checkout.GetTotalPrice());
         }
+
+        [TestMethod]
+        public void Checkout_ScansAreProperlyRegisteredRegardlessOfCase()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            checkout.Scan("a");
+            checkout.Scan("b");
+            checkout.Scan("c");
+
+            Assert.AreEqual(60, checkout.GetTotalPrice());
+        }
     }
 }
