@@ -244,5 +244,17 @@ namespace Checkout.UnitTests
 
             Assert.AreEqual(10, checkout.GetTotalPrice());
         }
+
+        [TestMethod]
+        public void Checkout_ScansAreProperlyRegisteredWhenCorrectSkuIsSurroundedByWhiteSpace()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            checkout.Scan(" A");
+            checkout.Scan("B ");
+            checkout.Scan(" \r\n\t C \r\n\t ");
+
+            Assert.AreEqual(60, checkout.GetTotalPrice());
+        }
     }
 }
