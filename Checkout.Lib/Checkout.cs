@@ -20,6 +20,10 @@ namespace Checkout
             {
                 throw new ArgumentNullException(nameof(sku));
             }
+            else if (sku == "")
+            {
+                throw new ArgumentException(nameof(sku));
+            }
 
             var product = this.productRepository.GetProduct(sku);
             if (product == null)
