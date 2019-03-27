@@ -82,5 +82,19 @@ namespace Checkout.UnitTests
 
             Assert.AreEqual(10, checkout.GetTotalPrice());
         }
+
+        [TestMethod]
+        public void Checkout_CalculatesCorrectPriceFor_MultipleScans_SingleProduct_TwoForOneBundle()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            checkout.Scan("D");
+            checkout.Scan("D");
+            checkout.Scan("D");
+            checkout.Scan("D");
+            checkout.Scan("D");
+
+            Assert.AreEqual(30, checkout.GetTotalPrice());
+        }
     }
 }
