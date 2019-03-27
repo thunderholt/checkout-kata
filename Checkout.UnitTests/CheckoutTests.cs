@@ -36,7 +36,7 @@ namespace Checkout.UnitTests
                 Sku = "D",
                 UnitPrice = 10,
                 BundleQuantity = 2,
-                BundleMultiplier = 1
+                BundlePrice = 10
             });
 
             productRepository.AddProduct(new Product
@@ -44,7 +44,7 @@ namespace Checkout.UnitTests
                 Sku = "E",
                 UnitPrice = 20,
                 BundleQuantity = 3,
-                BundleMultiplier = 2
+                BundlePrice = 40
             });
         }
 

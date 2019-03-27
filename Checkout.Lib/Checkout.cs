@@ -75,13 +75,13 @@ namespace Checkout
             int remainderQuantity = basketItem.Quantity;
             int bundleQuantity = 0;
 
-            if (product.BundleQuantity > 0 && product.BundleMultiplier > 0)
+            if (product.BundleQuantity > 0 && product.BundlePrice > 0)
             {
                 bundleQuantity = Math.DivRem(basketItem.Quantity, product.BundleQuantity, out remainderQuantity);
             }
 
             basketItemPrice =
-                bundleQuantity * product.BundleMultiplier * product.UnitPrice +
+                bundleQuantity * product.BundlePrice +
                 remainderQuantity * product.UnitPrice;
 
             return basketItemPrice;
