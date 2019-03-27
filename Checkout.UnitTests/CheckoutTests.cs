@@ -130,5 +130,44 @@ namespace Checkout.UnitTests
 
             Assert.AreEqual(100, checkout.GetTotalPrice());
         }
+
+        [TestMethod]
+        public void Checkout_CalculatesCorrectPriceFor_MultipleScans_MultipleProducts_VariousBundles()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            // 2 x £10 = £20
+            checkout.Scan("A");
+            checkout.Scan("A");
+
+            // 3 x £20 = £60
+            checkout.Scan("B");
+            checkout.Scan("B");
+            checkout.Scan("B");
+
+            // 4 x £40 = £120
+            checkout.Scan("C");
+            checkout.Scan("C");
+            checkout.Scan("C");
+            checkout.Scan("C");
+
+            // £10 + £10 + £10 = £30
+            checkout.Scan("D");
+            checkout.Scan("D");
+            checkout.Scan("D");
+            checkout.Scan("D");
+            checkout.Scan("D");
+
+            // 2 x £20 + 2 x £20 + £20 = £100
+            checkout.Scan("E");
+            checkout.Scan("E");
+            checkout.Scan("E");
+            checkout.Scan("E");
+            checkout.Scan("E");
+            checkout.Scan("E");
+            checkout.Scan("E");
+
+            Assert.AreEqual(330, checkout.GetTotalPrice());
+        }
     }
 }
