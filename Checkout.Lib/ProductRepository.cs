@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Checkout
@@ -14,7 +15,7 @@ namespace Checkout
 
         public Product GetProduct(string sku)
         {
-            return this.products.FirstOrDefault(p => p.Sku == sku);
+            return this.products.FirstOrDefault(p => p.Sku.Equals(sku, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
