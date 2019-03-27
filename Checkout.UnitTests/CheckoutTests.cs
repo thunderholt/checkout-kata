@@ -169,5 +169,35 @@ namespace Checkout.UnitTests
 
             Assert.AreEqual(330, checkout.GetTotalPrice());
         }
+
+        [TestMethod]
+        public void Checkout_CalculatesCorrectPriceFor_MultipleScans_MultipleProducts_VariousBundles_MixedUpScanOrder()
+        {
+            var checkout = new Checkout(this.productRepository);
+
+            checkout.Scan("C");
+            checkout.Scan("E");
+            checkout.Scan("D");
+            checkout.Scan("C");
+            checkout.Scan("E");
+            checkout.Scan("A");
+            checkout.Scan("B");
+            checkout.Scan("D");
+            checkout.Scan("E");
+            checkout.Scan("C");
+            checkout.Scan("D");
+            checkout.Scan("E");
+            checkout.Scan("A");
+            checkout.Scan("E");
+            checkout.Scan("E");
+            checkout.Scan("B");
+            checkout.Scan("D");
+            checkout.Scan("B");
+            checkout.Scan("C");
+            checkout.Scan("D");
+            checkout.Scan("E");
+
+            Assert.AreEqual(330, checkout.GetTotalPrice());
+        }
     }
 }
