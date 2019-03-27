@@ -20,7 +20,10 @@ namespace Checkout
             {
                 throw new ArgumentNullException(nameof(sku));
             }
-            else if (string.IsNullOrWhiteSpace(sku))
+
+            sku = sku.Trim();
+
+            if (sku == "")
             {
                 throw new ArgumentException(nameof(sku));
             }
