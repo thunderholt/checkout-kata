@@ -16,6 +16,11 @@ namespace Checkout
 
         public void Scan(string sku)
         {
+            if (sku == null)
+            {
+                throw new ArgumentNullException(nameof(sku));
+            }
+
             var product = this.productRepository.GetProduct(sku);
             if (product == null)
             {
