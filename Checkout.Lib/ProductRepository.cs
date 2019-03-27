@@ -1,17 +1,20 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Checkout
 {
     public class ProductRepository : IProductRepository
     {
+        private List<Product> products = new List<Product>();
+
         public void AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            this.products.Add(product);
         }
 
         public Product GetProduct(string sku)
         {
-            throw new NotImplementedException();
+            return this.products.FirstOrDefault(p => p.Sku == sku);
         }
     }
 }
