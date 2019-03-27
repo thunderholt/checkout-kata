@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Checkout
 {
@@ -14,10 +16,8 @@ namespace Checkout
 
         public void Scan(string sku)
         {
-            this.basketItems.Add(new BasketItem
-            {
-                Sku = sku
-            });
+            var basketItem = this.CoalesceBasketItem(sku);
+            basketItem.Quantity++;
         }
 
         public decimal GetTotalPrice()
@@ -32,16 +32,47 @@ namespace Checkout
             return totalPrice;
         }
 
+        private BasketItem CoalesceBasketItem(string sku)
+        {
+            var basketItem = this.basketItems.FirstOrDefault(bi => bi.Sku.Equals(sku, StringComparison.InvariantCultureIgnoreCase));
+            if (basketItem == null)
+            {
+                basketItem = new BasketItem
+                {
+                    Sku = sku
+                };
+
+                this.basketItems.Add(basketItem);
+            }
+
+            return basketItem;
+        }
+
         private decimal CalculateBasketItemPrice(BasketItem basketItem)
         {
+            decimal basketItemPrice = 0;
+
             var product = this.productRepository.GetProduct(basketItem.Sku);
 
-            return product.UnitPrice;
+            int remainderQuantity = basketItem.Quantity;
+            int bundleQuantity = 0;
+
+            if (product.BundleQuantity > 0 && product.BundleMultiplier > 0)
+            {
+                bundleQuantity = Math.DivRem(basketItem.Quantity, product.BundleQuantity, out remainderQuantity);
+            }
+
+            basketItemPrice =
+                bundleQuantity * product.BundleMultiplier * product.UnitPrice +
+                remainderQuantity * product.UnitPrice;
+
+            return basketItemPrice;
         }
 
         private class BasketItem
         {
             public string Sku { get; set; }
+            public int Quantity { get; set; }
         }
     }
 }
